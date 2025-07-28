@@ -2,15 +2,17 @@ import { useCallback, useState } from "react";
 // import the question file 
 import QUESTIONS from "../questions.js"
 import quizCompleteImg from "../assets/quiz-complete.png"
-import QuestionTimer from "./questionTimer.jsx";
+import Question from "./Question.jsx";
+
 export default function Quiz() {
 
+
     const [userAnswers, setUserAnswers] = useState([]);
+    const [answerState, setAnswerState] = useState("")
 
     // this is show the questopn and answers in display 
-    const activeQuestionIndex = userAnswers.length;
-
-
+    // const activeQuestionIndex = userAnswers.length;
+    const activeQuestionIndex = answerState === "" ? userAnswers.length : userAnswers.length - 1;
     const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
 
 
@@ -21,12 +23,37 @@ export default function Quiz() {
          });
      } */
 
-    const handleSelectAnswer = useCallback(function handleSelectAnswer(selectAnswer) {
+    const handleSelectAnswer = useCallback(
+        function handleSelectAnswer(selectAnswer) {
 
-        setUserAnswers((prevUserAnswer) => {
-            return [...prevUserAnswer, selectAnswer]
-        });
-    }, [])
+            setAnswerState("answered")
+
+            setUserAnswers((prevUserAnswer) => {
+                return [...prevUserAnswer, selectAnswer]
+
+            });
+
+            setTimeout(() => {
+                //  const correctAnswer = QUESTIONS[activeQuestionIndex].correctAnswer;
+                // console.log("settimeout check 1");
+
+                if (selectAnswer === QUESTIONS[activeQuestionIndex].answers[0]) {
+                    // console.log("check >>>>>>>>> if 2");
+                    setAnswerState("correct")
+                } else {
+                    // console.log("check >>>>>>>>> else 2");
+                    setAnswerState("wrong")
+                }
+                setTimeout(() => {
+                    // console.log("settimeout check 2");
+                    setAnswerState("")
+
+                }, 2000);
+
+            }, 1000);
+
+
+        }, [activeQuestionIndex])
 
     console.log("+ 1");
 
@@ -43,27 +70,17 @@ export default function Quiz() {
     }
 
 
-    const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers];
-    shuffledAnswers.sort(() => Math.random() - 0.5);
-
     return (
         <div id="quiz">
-            <div id="question">
-
-                <QuestionTimer
-                    key={activeQuestionIndex}
-                    timeout={10000}
-                    onTimeout={handleSkipAnswer} />
-
-                <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
-                <ul id="answers">
-                    {shuffledAnswers.map((answer) => (
-                        <li key={answer} className="answer">
-                            <button onClick={() => handleSelectAnswer(answer)}>{answer}</button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            <Question
+                key={activeQuestionIndex}
+                questionText={QUESTIONS[activeQuestionIndex].text}
+                answers={QUESTIONS[activeQuestionIndex].answers}
+                onSelectAnswer={handleSelectAnswer}
+                answerState={answerState}
+                selectAnswer={userAnswers[userAnswers.length - 1]}
+                onSkipAnswer={handleSkipAnswer}
+            />
         </div>
     )
 }
