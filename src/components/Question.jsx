@@ -28,10 +28,10 @@ export default function Question({
             }, 2000);
         }, 1000);
     }
-    let answerState = "" ; 
-    if (answer.selectedAnswer && answer.inCorrect  !== null) {
+    let answerState = "";
+    if (answer.selectedAnswer && answer.inCorrect !== null) {
         answerState = answer.inCorrect ? "correct" : "wrong"
-    }else if (answer.selectedAnswer) {
+    } else if (answer.selectedAnswer) {
         answerState = "answered"
     }
     return (

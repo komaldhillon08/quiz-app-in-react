@@ -6,12 +6,9 @@ import Summary from "./Summary.jsx";
 export default function Quiz() {
 
     const [userAnswers, setUserAnswers] = useState([]);
-
     // this is show the questopn and answers in display 
     const activeQuestionIndex = userAnswers.length;
     const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
-
-
 
     const handleSelectAnswer = useCallback(
         function handleSelectAnswer(selectAnswer) {

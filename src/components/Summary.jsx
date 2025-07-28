@@ -8,19 +8,6 @@ export default function Summary({ userAnswers }) {
             <img src={quizCompleteImg} alt="quiz win" />
             <h2>Quiz Complete ....</h2>
             <div className="summary-stats">
-               {/*  <p>
-                    <span className="number">10%</span>
-                    <span className="text">skipped</span>
-                </p>
-                <p>
-                    <span className="number">10%</span>
-                    <span className="text">answered inCorrect</span>
-                </p>
-                <p>
-                    <span className="number">10%</span>
-                    <span className="text">answered correct</span>
-                </p> */}
-
                 <ol>
 
                     {userAnswers.map((answer , index) => {
